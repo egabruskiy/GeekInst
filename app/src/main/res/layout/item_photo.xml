@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.ContentFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp">
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="1dp"
+        android:adjustViewBounds="true" />
+
+    <ToggleButton
+        android:id="@+id/button_favorite"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="8dp"
+        android:checked="false"
+        android:text=""
+        android:textOff=""
+        android:textOn="" />
+
+</androidx.appcompat.widget.ContentFrameLayout>
