@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ToggleButton;
 import com.squareup.picasso.Picasso;
@@ -17,7 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.ViewHolder> {
 
     private List<PhotoItem> photoItemList;
-    private AdapterView.OnItemClickListener itemClickListener;
+    private OnItemClickListener itemClickListener;
+
+    public interface OnItemClickListener {
+        void onFavoriteCheckedChanged(boolean isChecked, int position);
+    }
 
     public PhotoListAdapter(List<PhotoItem> photoItemList) {
         this.photoItemList = photoItemList ;
@@ -33,6 +38,13 @@ public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.View
 
             imageView = itemView.findViewById(R.id.image_view);
             favoriteButton = itemView.findViewById(R.id.button_favorite);
+
+            favoriteButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    itemClickListener.onFavoriteCheckedChanged(isChecked, getAdapterPosition());
+                }
+            });
         }
     }
 
@@ -77,5 +89,19 @@ public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.View
         photoItemList = newPhotoInfoList;
         diffResult.dispatchUpdatesTo(this);
     }
+
+    public List<PhotoItem> getPhotoItemList() {
+        return photoItemList;
+    }
+
+    public void setPhotoItemList(List<PhotoItem> photoItemList) {
+        this.photoItemList = photoItemList;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
+
+
 
     }

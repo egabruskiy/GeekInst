@@ -19,6 +19,9 @@
         android:checked="false"
         android:text=""
         android:textOff=""
-        android:textOn="" />
+        android:textOn=""
+        android:background="@drawable/button_favorite"
+
+        />
 
 </androidx.appcompat.widget.ContentFrameLayout>

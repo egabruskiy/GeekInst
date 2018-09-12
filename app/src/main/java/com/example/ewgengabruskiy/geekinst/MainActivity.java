@@ -1,23 +1,32 @@
 package com.example.ewgengabruskiy.geekinst;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    FloatingActionButton fab;
+    final Fragment fragment1 = new MainFragment();
+    final Fragment fragment2 = new FavoriteFragment();
+
+    final FragmentManager fm = getSupportFragmentManager();
+    Fragment active = fragment1;
     private SharedPreferences sharedPreferences;
     private int theme;
 
@@ -32,12 +41,18 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.fragment_container, new MainFragment())
-                    .commit();
-        }
+        BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        fm.beginTransaction().add(R.id.fragment_container, fragment2, "2").hide(fragment2).commit();
+        fm.beginTransaction().add(R.id.fragment_container,fragment1, "1").commit();
+
+//        if (savedInstanceState == null) {
+//            getSupportFragmentManager()
+//                    .beginTransaction()
+//                    .add(R.id.fragment_container, new MainFragment())
+//                    .commit();
+//        }
 
         init();
     }
@@ -88,8 +103,11 @@ public class MainActivity extends AppCompatActivity
 
     public void init() {
 
+       fab = findViewById(R.id.fab);
+
         Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         DrawerLayout drawer =  findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -101,6 +119,31 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected( MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+
+                    fm.beginTransaction().hide(active).show(fragment1).commit();
+                    active = fragment1;
+                    fab.show();
+
+                    return true;
+
+                case R.id.navigation_notifications:
+                    fm.beginTransaction().hide(active).show(fragment2).commit();
+                    active = fragment2;
+                    fab.hide();
+                    return true;
+            }
+            return false;
+        }
+    };
 
 //    @Override
 //    public void onBackPressed() {

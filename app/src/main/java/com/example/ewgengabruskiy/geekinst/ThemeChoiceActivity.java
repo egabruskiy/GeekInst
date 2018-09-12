@@ -38,8 +38,6 @@ public class ThemeChoiceActivity extends AppCompatActivity implements View.OnCli
     }
 
 
-
-
     @Override
     public void onClick(View view) {
 
@@ -78,6 +76,9 @@ public class ThemeChoiceActivity extends AppCompatActivity implements View.OnCli
     private void init(){
         Toolbar toolbar =  findViewById(R.id.toolbar_theme_choice);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 
         limeButton = findViewById(R.id.lime_button);
         brightButton = findViewById(R.id.bright_button);
@@ -85,5 +86,11 @@ public class ThemeChoiceActivity extends AppCompatActivity implements View.OnCli
         brightButton.setOnClickListener(this);
         darkButton.setOnClickListener(this);
         limeButton.setOnClickListener(this);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
